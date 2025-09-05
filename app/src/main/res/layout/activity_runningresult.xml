@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFDF6"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:background="#FFFFFF"
+        android:elevation="4dp"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Running Time"
+            android:textColor="#5D7755"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/nanumgothic_regular" />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="14dp"
+            android:text="00:00:00"
+            android:textColor="#347EBF"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/nanumgothic_regular" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_footsteps"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/tvDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="14dp"
+            android:text="0.00 km"
+            android:textColor="#347EBF"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/nanumgothic_regular" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_fire"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/tvKcal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="14dp"
+            android:text="0 kcal"
+            android:textColor="#347EBF"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/nanumgothic_regular" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_leaf_speed"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/tvPace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="14dp"
+            android:text="0'00''"
+            android:textColor="#347EBF"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/nanumgothic_regular" />
+    </LinearLayout>
+
+    <fragment
+        android:id="@+id/resultMap"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btnQuestReward"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#ADD685"
+        android:elevation="4dp"
+        android:text="퀘스트 보상받기"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp" />
+
+</LinearLayout>
