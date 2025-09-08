@@ -52,4 +52,4 @@ int completed = 0;
 전체적으로 많이 변경해서 변경하신부분 올려주시면 제가 추가해서 다시 올려드리겠습니다!
 
 ## <9/8 수정사항>
-혜경님 코드와 주원님 코드 합쳐서 Tab2Activity.java랑 Tab3Activity.java 최신화하였습니다! 
+혜경님 코드와 주원님 코드 합쳐서 Tab2Activity.java랑 Tab3Activity.java 최신화해서 올려두었습니다!
