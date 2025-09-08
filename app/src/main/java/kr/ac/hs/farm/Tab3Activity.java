@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -37,7 +38,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Tab3Activity extends AppCompatActivity {
+public class Tab3Activity extends BaseActivity {
 
     // 전체 퀘스트 수 9/5 기준(23개 + 카메라 2개(cameraQuestCount 검색해서 카메라 부분 퀘스트 늘어나면 숫자 올리기))
     // Tab2Activity.java도 똑같이 해줘야함
@@ -48,7 +49,7 @@ public class Tab3Activity extends AppCompatActivity {
 
     private ProgressBar progressQuestP1, progressQuestP2;
     private ImageView boxRewardP1, boxRewardP2;
-    private Button btnClaimP1, btnClaimP2;
+    private Button btnQuestP1, btnQuestP2;
 
     private ActivityResultLauncher<String> requestCameraPermissionLauncher;
     private ActivityResultLauncher<Uri> takePictureLauncher;
@@ -82,8 +83,8 @@ public class Tab3Activity extends AppCompatActivity {
         progressQuestP2 = findViewById(R.id.progressQuestP2);
         boxRewardP1 = findViewById(R.id.boxRewardP1);
         boxRewardP2 = findViewById(R.id.boxRewardP2);
-        btnClaimP1 = findViewById(R.id.btnClaimP1);
-        btnClaimP2 = findViewById(R.id.btnClaimP2);
+        btnQuestP1 = findViewById(R.id.btnQuestP1);
+        btnQuestP2 = findViewById(R.id.btnQuestP2);
 
         double lastRunDistance = getIntent().getDoubleExtra("lastRunDistance", 0.0);
 
@@ -91,21 +92,19 @@ public class Tab3Activity extends AppCompatActivity {
         setupActivityResultLaunchers();
 
         // 전달받은 러닝 거리를 1km 조건 체크에 활용
-        btnClaimP1.setEnabled(lastRunDistance >= 1.0);
-        btnClaimP2.setEnabled(true); // 항상 가능
+        btnQuestP1.setEnabled(true);
+        btnQuestP2.setEnabled(true);
 
-        // p1번 버튼 클릭 → 권한 → 촬영 → 미리보기
-        btnClaimP1.setOnClickListener(v -> {
-            currentPhotoQuestNumber = 101;
-            if (lastRunDistance < 1.0) {
-                Toast.makeText(this, "1km 이상 러닝 시 활성화됩니다.", Toast.LENGTH_LONG).show();
-                return;
+        btnQuestP1.setOnClickListener(v -> {
+            if (lastRunDistance >= 1.0) {
+                currentPhotoQuestNumber = 101;
+                ensureCameraPermissionThenCapture();
+            } else {
+                Toast.makeText(this, "1km 이상 러닝 시 촬영 가능합니다.", Toast.LENGTH_SHORT).show();
             }
-            ensureCameraPermissionThenCapture();
         });
 
-        // p2번 버튼 클릭 → 권한 → 촬영 → 미리보기
-        btnClaimP2.setOnClickListener(v -> {
+        btnQuestP2.setOnClickListener(v -> {
             currentPhotoQuestNumber = 102;
             ensureCameraPermissionThenCapture();
         });
@@ -117,6 +116,18 @@ public class Tab3Activity extends AppCompatActivity {
                 claimButtons[i].setOnClickListener(v -> claimQuest(index + 1));
             }
         }
+
+        ImageButton tab1 = findViewById(R.id.tab1Button);
+        ImageButton tab2 = findViewById(R.id.tab2Button);
+        ImageButton tab3 = findViewById(R.id.tab3Button);
+        ImageButton tab4 = findViewById(R.id.tab4Button);
+        ImageButton tab6 = findViewById(R.id.tab6Button);
+
+        // BaseActivity에 등록
+        initBottomTabs(java.util.Arrays.asList(tab1, tab2, tab3, tab4, tab6));
+
+        // 현재 탭(MainActivity = tab3)을 강조
+        updateBottomBarUI(R.id.tab3Button);
 
         // 하단 탭
         findViewById(R.id.tab1Button).setOnClickListener(view -> startActivity(new Intent(this, MainActivity.class)));
@@ -372,19 +383,17 @@ public class Tab3Activity extends AppCompatActivity {
     // 보상 성공 시 UI 업데이트
     private void handleCameraQuestRewardUI(int questNumber) {
         try {
-            int boxId;
-            int progressId;
-            int btnId;
+            int boxId,progressId,btnId;
 
             // P1(24), P2(25) 매핑
             if (questNumber == 101) {
                 boxId = R.id.boxRewardP1;
                 progressId = R.id.progressQuestP1;
-                btnId = R.id.btnClaimP1;
+                btnId = R.id.btnQuestP1;
             } else {
                 boxId = R.id.boxRewardP2;
                 progressId = R.id.progressQuestP2;
-                btnId = R.id.btnClaimP2;
+                btnId = R.id.btnQuestP2;
             }
 
             ImageView box = findViewById(boxId);
@@ -403,7 +412,7 @@ public class Tab3Activity extends AppCompatActivity {
                 btn.setText("완료");
             }
 
-            Toast.makeText(this, "퀘스트 " + questNumber + " 보상을 받았습니다!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "카메라 퀘스트 보상을 받았습니다!", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Log.e("CameraQuestUI", "UI update failed: " + e.getMessage());
         }
